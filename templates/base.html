@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Personal Diary</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 20px; background: #f0f0f0; }
+        .nav { background: #333; color: white; padding: 15px; margin-bottom: 20px; }
+        .nav a { color: white; margin-right: 15px; text-decoration: none; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; }
+        input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; }
+        button { padding: 10px 20px; background: #333; color: white; border: none; cursor: pointer; }
+        .story { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+        .message { padding: 10px; background: #d4edda; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">Home</a>
+        {% if user.is_authenticated %}
+            <a href="/profile">Profile</a>
+            <a href="/create">Write Story</a>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% if page == 'register' %}
+            <h2>Register</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+
+        {% elif page == 'login' %}
+            <h2>Login</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+
+        {% elif page == 'profile' %}
+            <h2>My Profile ({{ user.username }})</h2>
+            <p>Flask Analytics: {{ analytics }}</p>
+            <h3>My Stories</h3>
+            {% for story in stories %}
+                <div class="story">
+                    <h4>{{ story.title }}</h4>
+                    <p>{{ story.content }}</p>
+                    <small>{{ story.visibility }} | {{ story.views }} views</small>
+                </div>
+            {% endfor %}
+
+        {% elif page == 'create' %}
+            <h2>Write New Story</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="title" placeholder="Title" required>
+                <textarea name="content" placeholder="Your story..." rows="10" required></textarea>
+                <select name="visibility">
+                    <option value="private">Private</option>
+                    <option value="public">Public</option>
+                </select>
+                <button type="submit">Publish</button>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - Personal Diary</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 0; background: #f5f5f5; }
+        .nav { background: #333; color: white; padding: 15px 20px; }
+        .nav a { color: white; margin-right: 20px; text-decoration: none; }
+        .nav a:hover { text-decoration: underline; }
+        .container { max-width: 900px; margin: 20px auto; padding: 20px; }
+        .story { background: white; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .story h3 { margin-top: 0; color: #333; }
+        .story small { color: #666; }
+        .message { padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .message.success { background: #d4edda; color: #155724; }
+        .message.error { background: #f8d7da; color: #721c24; }
+        h2 { color: #333; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">Home</a>
+        {% if user.is_authenticated %}
+            <a href="/profile">Profile</a>
+            <a href="/create">Write Story</a>
+            <a href="/logout">Logout ({{ user.username }})</a>
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <h2>📚 Public Stories</h2>
+        
+        {% for story in stories %}
+            <div class="story">
+                <h3>{{ story.title }}</h3>
+                <p>{{ story.content|truncatewords:50 }}</p>
+                <small>✍️ By {{ story.author.username }} | 📅 {{ story.created_at|date:"M d, Y" }} | 👁️ {{ story.views }} views</small>
+            </div>
+        {% empty %}
+            <div class="story">
+                <p>No public stories yet. Be the first to share!</p>
+                {% if user.is_authenticated %}
+                    <a href="/create">Write your first story →</a>
+                {% else %}
+                    <a href="/register">Register to start writing →</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

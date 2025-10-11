@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile</title>
+    <style>
+        body { font-family: Arial; margin: 0; background: #f5f5f5; }
+        .nav { background: #333; color: white; padding: 15px 20px; }
+        .nav a { color: white; margin-right: 20px; text-decoration: none; }
+        .container { max-width: 900px; margin: 20px auto; padding: 20px; }
+        .stats { display: flex; gap: 15px; margin: 20px 0; }
+        .stat-box { background: white; padding: 20px; border-radius: 8px; flex: 1; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .stat-box h3 { margin: 0; color: #333; }
+        .stat-box p { color: #666; margin: 5px 0 0 0; }
+        .story { background: white; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .badge { padding: 5px 10px; border-radius: 4px; font-size: 12px; color: white; }
+        .badge.public { background: #28a745; }
+        .badge.private { background: #6c757d; }
+        button { padding: 10px 20px; background: #333; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #555; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">Home</a>
+        <a href="/profile">Profile</a>
+        <a href="/create">Write Story</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="container">
+        <h2>👤 {{ user.username }}'s Profile</h2>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <h3>{{ total_stories }}</h3>
+                <p>Total Stories</p>
+            </div>
+            <div class="stat-box">
+                <h3>{{ public_stories }}</h3>
+                <p>Public Stories</p>
+            </div>
+            <div class="stat-box">
+                <h3>{{ analytics.total_views|default:"--" }}</h3>
+                <p>Flask Analytics</p>
+            </div>
+        </div>
+
+        <h3>📝 My Stories</h3>
+        <a href="/create"><button>+ New Story</button></a>
+
+        {% for story in stories %}
+            <div class="story">
+                <h3>{{ story.title }} <span class="badge {{ story.visibility }}">{{ story.visibility }}</span></h3>
+                <p>{{ story.content|truncatewords:30 }}</p>
+                <small>{{ story.created_at|date:"M d, Y" }} | {{ story.views }} views</small>
+            </div>
+        {% empty %}
+            <p>No stories yet. <a href="/create">Write your first story!</a></p>
+        {% endfor %}
+    </div>
+</body>
+</html>
