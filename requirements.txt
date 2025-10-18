@@ -1,8 +1,11 @@
 Django==4.2.7
 psycopg[binary]
+# psycopg to connect the database. psycopg executes the sql query on the database.
 dj-database-url==2.1.0
 whitenoise==6.6.0
+#whitenoise makes the deployed app faster and efficient,especially serving static files like(css,html,js,imgs)
 gunicorn==21.2.0
+#green unicorn a production-grade WSGI HTTP serve for running Python web app.
 requests==2.31.0
 Flask==3.0.0
 Flask-CORS==4.0.0
