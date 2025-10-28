@@ -1,6 +1,6 @@
 # personal_diary
 personal diary project\
-**about this project.**\
+**about this project.**
 
 **1.Green Unicorn.**\
 It is a Python Web Server Gateway Interface (WSGI) **HTTP server** typically used to run Python web applications in a production environment\
