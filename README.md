@@ -1,10 +1,10 @@
 # personal_diary
-personal diary project
-**about this project.**
+personal diary project\\
+**about this project.**\\
 
-**1.Green Unicorn.**
-It is a Python Web Server Gateway Interface (WSGI) **HTTP server** typically used to run Python web applications in a production environment
-What it does	
+**1.Green Unicorn.**\\
+It is a Python Web Server Gateway Interface (WSGI) **HTTP server** typically used to run Python web applications in a production environment\\
+What it does	\\
 Runs the Python backend applications (Django/Flask) in a production environment; manages multiple worker processes to handle high traffic and ensures application stability and concurrency
 **2.PBKDF2-SHA256	Password Hashing Security.**
 Used by Django to securely hash and store user passwords, making them highly resistant to brute-force and dictionary attacks.
